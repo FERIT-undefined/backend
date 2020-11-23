@@ -1,0 +1,27 @@
+{
+  "name": "brza-klopa-backend",
+  "version": "0.0.1",
+  "description": "REST API za BrzaKlopa aplikaciju.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FERIT-undefined/backend.git"
+  },
+  "keywords": [],
+  "author": "FERIT-undefined",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FERIT-undefined/backend/issues"
+  },
+  "homepage": "https://github.com/FERIT-undefined/backend#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.15",
+    "nodemon": "^2.0.6",
+    "require-all": "^3.0.0"
+  }
+}
