@@ -10,7 +10,7 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useFindAndM
     console.log('[Debug]: Database conected!');
     loadModules();
 });
-
+app.use(express.json());
 
 // Express Routes
 loadRoutes(app);
