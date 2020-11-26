@@ -4,7 +4,7 @@ const role = require("../_helpers/role");
 var lowerCaseRoles = [];
 var roles = Object.values(role);
 for (var i = 0; i < roles.length; i++) {
-  lowerCaseRoles.push(roles[i].toLowerCase());
+    lowerCaseRoles.push(roles[i].toLowerCase());
 }
 
 exports.validateLoginUser = [
@@ -45,7 +45,10 @@ exports.validateRegisterUser = [
     .isEmail()
     .withMessage("Invalid email address!"),
 
-  check("password").not().isEmpty().withMessage("Password cannot be empty!"),
+  check("password")
+  .not()
+  .isEmpty()
+  .withMessage("Password cannot be empty!"),
 
   check("role")
     .not()
@@ -61,5 +64,5 @@ exports.validateRegisterUser = [
     if (!errors.isEmpty())
       return res.status(422).json({ errors: errors.array() });
     next();
-  },
+  }
 ];

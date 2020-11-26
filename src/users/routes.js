@@ -9,7 +9,6 @@ const logout = require('./auth/logout')
 const remove = require('./remove/remove')
 const list = require('./list/list')
 
-
 router.get('/', authenticateJWT, list);
 router.post('/register', validateRegisterUser, register);
 router.post('/login', validateLoginUser, login);
