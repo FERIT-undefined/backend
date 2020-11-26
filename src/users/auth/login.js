@@ -22,8 +22,13 @@ async function login(req, res) {
       await user.save();
 
       return res.json({
-        accessToken,
-        user,
+        user:{
+          fname: user.fname,
+          lname: user.lname,
+          role: user.role,
+          accessToken,
+          refreshToken: user.refreshToken,
+        },
       });
     }
   }

@@ -5,7 +5,11 @@ const Schema = mongoose.Schema;
 
 let userSchema = new Schema(
   {
-    username: {
+    fname: {
+      type: String,
+      required: true,
+    },
+    lname: {
       type: String,
       required: true,
     },
@@ -31,7 +35,6 @@ let userSchema = new Schema(
 userSchema.set("toJSON", {
   versionKey: false,
   transform: function (doc, ret) {
-    delete ret._id;
     delete ret.password;
   },
 });

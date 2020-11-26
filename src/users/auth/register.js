@@ -5,19 +5,17 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 async function register(req, res, next) {
-  const userExist = await User.findOne({
-    $or: [{ username: req.body.username }, { email: req.body.email }],
-  });
+  const userExist = await User.findOne({ email: req.body.email });
   if (userExist) {
-    return res.status(400).json({ error: "Username or email already in use" });
+    return res.status(400).json({ error: "Email already in use" });
   }
   const newUser = new User();
   const passwordHash = bcrypt.hashSync(req.body.password, 10);
 
-  newUser.username = req.body.username;
+  newUser.fname = req.body.fname;
+  newUser.lname = req.body.lname;
   newUser.email = req.body.email;
-  newUser.role =
-    req.body.role.toLowerCase() == "admin" ? role.Admin : role.User;
+  newUser.role = req.body.role.toLowerCase() == "admin" ? role.Admin : role.User;
   newUser.password = passwordHash;
 
   try {
@@ -36,8 +34,13 @@ async function register(req, res, next) {
     const user = await savedUser.save();
 
     return res.json({
-      accessToken,
-      user,
+      user:{
+        fname: user.fname,
+        lname: user.lname,
+        role: user.role,
+        accessToken,
+        refreshToken: user.refreshToken,
+      },
     });
   } catch (err) {
     return res.status(500).json({ error: err });
