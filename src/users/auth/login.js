@@ -16,6 +16,10 @@ async function login(req, res) {
       const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: process.env.ACCESS_TOKEN_LIFE,
       });
+      const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
+      user.refreshToken = refreshToken;
+  
+      await user.save();
 
       res.json({
         accessToken,
