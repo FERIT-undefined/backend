@@ -6,9 +6,10 @@ const login = require('./auth/login')
 const register = require('./auth/register')
 const logout = require('./auth/logout')
 const remove = require('./remove/remove')
+const { validateLoginUser, validateRegisterUser } = require('../_helpers/validation');
 
-router.post('/register', register);
-router.post('/login', login);
+router.post('/register', validateRegisterUser, register);
+router.post('/login', validateLoginUser, login);
 router.post('/logout', logout);
 router.delete('/remove/:id', authenticateJWT, remove);
 
