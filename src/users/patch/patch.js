@@ -15,7 +15,7 @@ async function patch(req, res) {
 
   const updates = Object.keys(req.body);
 
-  const allowedUpdates = ["fname", "lname", "email"];
+  const allowedUpdates = ["fname", "lname", "email", "password"];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
