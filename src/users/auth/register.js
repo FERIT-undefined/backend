@@ -9,7 +9,7 @@ async function register(req, res, next) {
     $or: [{ username: req.body.username }, { email: req.body.email }],
   });
   if (userExist) {
-    return res.json({ error: "Username or email already in use" });
+    return res.status(400).json({ error: "Username or email already in use" });
   }
   const newUser = new User();
   const passwordHash = bcrypt.hashSync(req.body.password, 10);
@@ -40,6 +40,6 @@ async function register(req, res, next) {
       user,
     });
   } catch (err) {
-    return res.json({ error: err });
+    return res.status(500).json({ error: err });
   }
 }

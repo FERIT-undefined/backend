@@ -18,17 +18,14 @@ async function login(req, res) {
       });
       const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
       user.refreshToken = refreshToken;
-  
+
       await user.save();
 
-      res.json({
+      return res.json({
         accessToken,
         user,
       });
-    } else {
-      res.json({ error: "Invalid password" });
     }
-  } else {
-    res.json({ error: "Invalid user credentials" });
   }
+  return res.status(401).json({ error: "Invalid user credentials" });
 }

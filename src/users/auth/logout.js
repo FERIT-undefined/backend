@@ -8,5 +8,5 @@ async function logout(req, res) {
     await user.save();
     return res.json({ msg: "User successfully logged out!" });
   }
-  else return res.json({ msg: "User already logged out!" });
+  else return res.sendStatus(400);
 }
