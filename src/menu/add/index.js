@@ -1,9 +1,17 @@
 const Meal = require('../schema');
+const User = require("../schema");
+
 const mealType = require("../../_helpers/meals");
+const role = require("../../_helpers/role");
 
 async function add(req, res) {
 
     const data = req.body;
+    const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
+    
+    if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403); 
+    if(authorizedUser.id == id) return res.status(409);
+
     const savedMeal = await Meal.findOne({ name: data.name });
     if(savedMeal) {
         return res.status(400).json({ error: 'Meal already exists on the menu' });

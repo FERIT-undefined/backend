@@ -1,6 +1,8 @@
 const Meal = require('../schema');
-const mealType = require("../../_helpers/meals");
+const User = require("../schema");
 
+const mealType = require("../../_helpers/meals");
+const role = require("../../_helpers/role");
 
 async function editMeal(req, res) {
 
@@ -8,6 +10,10 @@ async function editMeal(req, res) {
     if (id == null || id.length != 24) return res.status(400).send('Invalid meal ID');
 
     const data = req.body;
+    const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
+    
+    if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403); 
+    if(authorizedUser.id == id) return res.status(409);
 
     await Meal.findByIdAndUpdate(id, { name: data.name, description: data.description, price: data.price, type: getMealTypeFromString(data.type), pdv: data.pdv, discount: data.discount });
     try {
