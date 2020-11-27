@@ -3,10 +3,13 @@ const User = require("../schema");
 const role = require("../../_helpers/role");
 
 async function list(req, res) {
+
   const authorizedUser = await User.findOne({
     refreshToken: req.body.refreshToken,
   });
+  
   if (authorizedUser && authorizedUser.role == role.Admin) {
+
     User.find({})
       .then((data) => {
         if (!data) {
