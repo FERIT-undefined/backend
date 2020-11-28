@@ -29,6 +29,11 @@ async function patch(req, res) {
     if (!isValid) return res.status(400).send("Wrong email format!");
   }
 
+  if (req.body.password) {
+    const passwordHash = bcrypt.hashSync(req.body.password, 10);
+    req.body.password = passwordHash;
+  }
+
   try {
     const user = await User.findOne({
       refreshToken,

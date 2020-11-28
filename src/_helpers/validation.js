@@ -48,6 +48,7 @@ exports.validateRegisterUser = [
   check("password")
   .not()
   .isEmpty()
+  .escape()
   .withMessage("Password cannot be empty!"),
 
   check("role")
