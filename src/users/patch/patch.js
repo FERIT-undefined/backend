@@ -1,5 +1,6 @@
 module.exports = patch;
 const User = require("../schema");
+const bcrypt = require("bcryptjs");
 const role = require("../../_helpers/role");
 
 async function patch(req, res) {
