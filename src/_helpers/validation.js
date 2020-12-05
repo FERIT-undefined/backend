@@ -1,11 +1,4 @@
 const { check, validationResult } = require("express-validator");
-const role = require("../_helpers/role");
-
-var lowerCaseRoles = [];
-var roles = Object.values(role);
-for (var i = 0; i < roles.length; i++) {
-    lowerCaseRoles.push(roles[i].toLowerCase());
-}
 
 exports.validateLoginUser = [
   check("email")
@@ -50,15 +43,6 @@ exports.validateRegisterUser = [
   .isEmpty()
   .escape()
   .withMessage("Password cannot be empty!"),
-
-  check("role")
-    .not()
-    .isEmpty()
-    .withMessage("Role cannot be empty!")
-    .bail()
-    .toLowerCase()
-    .isIn(lowerCaseRoles)
-    .withMessage("Role doesnt exist!"),
 
   (req, res, next) => {
     const errors = validationResult(req);

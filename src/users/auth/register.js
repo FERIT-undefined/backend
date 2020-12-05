@@ -12,6 +12,10 @@ async function register(req, res, next) {
   const newUser = new User();
   const passwordHash = bcrypt.hashSync(req.body.password, 10);
 
+  if(!req.body.role){
+    req.body.role = "User"
+  }
+
   newUser.fname = req.body.fname;
   newUser.lname = req.body.lname;
   newUser.email = req.body.email;

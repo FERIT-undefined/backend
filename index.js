@@ -1,9 +1,11 @@
 require('dotenv/config');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { loadModules, loadRoutes } = require('./src/utils/index');
 
 const app = express();
+app.use(cors())
 
 // MongoDB Connection
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true }, () => {
