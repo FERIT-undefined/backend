@@ -10,6 +10,7 @@ const editStatus = require('./status/index');
 
 router.get('/', list.listAll);
 router.get('/:table', list.listByTable);
+router.get('/:table/:meal', list.listByOrderMeal);
 router.post('/add', authenticateJWT, add);
 //router.delete('/remove/:id', authenticateJWT, remove);
 router.patch('/:id', authenticateJWT, edit);
