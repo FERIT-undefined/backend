@@ -1,8 +1,15 @@
-module.exports = {
+exports.status = {
     Ordered: 'ordered',
     Started: 'started',
     Done: 'done'
 };
+
+function isValidStatus(string) {
+    if(string == 'ordered' || string == 'started' || string == 'done') {
+        return true;
+    }
+    return false;
+}
 
 function getOrderStatus(string) {
 
@@ -16,4 +23,5 @@ function getOrderStatus(string) {
         return Done;
     }
 }
-module.exports = getOrderStatus;
+exports.getOrderStatus = getOrderStatus;
+exports.isValidStatus = isValidStatus;
