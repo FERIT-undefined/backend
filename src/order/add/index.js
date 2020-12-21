@@ -1,19 +1,20 @@
 const TableOrder = require('../schema');
+const User = require("../../users/schema");
 const Joi = require('joi');
 
 const serializer = Joi.object({
     table: Joi.number().integer().required(),
     meals: Joi.array().required(),
-    total_price: Joi.number().required(),
-    refreshToken: Joi.string().required()
+    total_price: Joi.number().required()//,
+    //refreshToken: Joi.string().required()
 });
 
 async function add(req, res) {
 
-    const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
-    if(!authorizedUser) {
-        return res.status(403);
-    }
+    //const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
+    //if(!authorizedUser) {
+    //    return res.status(403);
+    //}
 
     const result = serializer.validate(req.body);
     if(result.error) {

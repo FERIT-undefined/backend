@@ -1,4 +1,5 @@
 const TableOrder = require('../schema');
+const User = require("../../users/schema");
 const Joi = require('joi');
 const orderStatus = require('../../_helpers/orderStatus');
 
@@ -37,14 +38,27 @@ async function edit(req, res) {
         const mealId = parseInt(resultParams.value.meal);
 
         order.meals[mealId].status = resultBody.value.status;
+        if(order.meals[mealId].status == orderStatus.status.Done) {
+            remove(order.meals, order.meals[mealId]);
+        }
+
         order.markModified('meals');
-        order.save();
+        await order.save();
+
+        if(order.meals.length <= 0) {
+            await TableOrder.deleteOne({ table: parseInt(resultParams.value.table) });
+        }
 
         return res.status(200).json({ status: 'Order status successfully edited' });
     }
     catch(err) {
         return res.status(500).json({ error: err });
     }
+}
+
+function remove(array, element) {
+    const index = array.indexOf(element);
+    array.splice(index, 1);
 }
 
 module.exports = edit;
