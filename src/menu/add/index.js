@@ -10,7 +10,6 @@ async function add(req, res) {
     const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
     
     if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403); 
-    if(authorizedUser.id == id) return res.status(409);
 
     const savedMeal = await Meal.findOne({ name: data.name });
     if(savedMeal) {
