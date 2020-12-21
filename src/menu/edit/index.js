@@ -13,7 +13,6 @@ async function editMeal(req, res) {
     const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
     
     if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403); 
-    if(authorizedUser.id == id) return res.status(409);
 
     await Meal.findByIdAndUpdate(id, { name: data.name, description: data.description, price: data.price, type: getMealTypeFromString(data.type), pdv: data.pdv, discount: data.discount });
     try {

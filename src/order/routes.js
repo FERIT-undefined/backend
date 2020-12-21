@@ -5,11 +5,11 @@ const authenticateJWT = require('../_helpers/authenticateJWT');
 const add = require('./add/index');
 //const listAllMeals = require('./list');
 //const remove = require('./remove/index');
-//const editMeal = require('./edit/index');
+const edit = require('./edit/index');
 
 //router.get('/', listAllMeals);
 router.post('/add', authenticateJWT, add);
 //router.delete('/remove/:id', authenticateJWT, remove);
-//router.patch('/:id', authenticateJWT, editMeal);
+router.patch('/:id', edit);
 
 module.exports = router;
