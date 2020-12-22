@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 //const authenticateJWT = require('../_helpers/authenticateJWT');
 
-const add = require('./add/index');
+const select = require('./select/index');
 
-//router.get('/', listAllMeals);
-router.post('/add', add);
+router.get('/:start/:end', select);
 
 module.exports = router;
