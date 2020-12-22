@@ -11,7 +11,8 @@ const orderTraffic = new Schema(
     },
     price: {
       type: Schema.Types.Number,
-      required: false
+      required: true,
+      default: 1
     },
     type: {
       type: mealType,

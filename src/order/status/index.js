@@ -1,5 +1,8 @@
 const TableOrder = require('../schema');
-const User = require("../../users/schema");
+const User = require('../../users/schema');
+const OrderTraffic = require('../../traffic/schema');
+const Meal = require('../../menu/schema');
+
 const Joi = require('joi');
 const orderStatus = require('../../_helpers/orderStatus');
 
@@ -19,7 +22,7 @@ async function edit(req, res) {
         return res.status(400).send(resultParams.error);
     }
 
-    const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
+    const authorizedUser = await User.findOne({ refreshToken: req.body.refreshToken });
     if(!authorizedUser) {
         return res.status(403);
     }
@@ -39,6 +42,13 @@ async function edit(req, res) {
 
         order.meals[mealId].status = resultBody.value.status;
         if(order.meals[mealId].status == orderStatus.status.Done) {
+
+            const mealData = await Meal.findOne({ name: order.meals[mealId].name });
+            if(!mealData) {
+                return res.status(500).json({ status: 'Meal not found in the database.' });
+            }
+
+            await insertOrderTraffic(mealData);
             remove(order.meals, order.meals[mealId]);
         }
 
@@ -54,6 +64,17 @@ async function edit(req, res) {
     catch(err) {
         return res.status(500).json({ error: err });
     }
+}
+
+async function insertOrderTraffic(mealData) {
+
+    const trafficOrder = new OrderTraffic();
+    trafficOrder.name = mealData.name;
+    trafficOrder.price = mealData.price;
+    trafficOrder.type = mealData.type;
+    trafficOrder.finished_timestamp = Date.now();
+
+    return await trafficOrder.save();
 }
 
 function remove(array, element) {
