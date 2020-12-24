@@ -1,5 +1,5 @@
 const Meal = require('../schema');
-const User = require("../schema");
+const User = require("../../users/schema");
 
 const role = require("../../_helpers/role");
 
@@ -10,8 +10,8 @@ async function remove(req, res) {
 
     const data = req.body;
     const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
-    
-    if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403); 
+
+    if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403);
     if(authorizedUser.id == id) return res.status(409);
 
     try {
