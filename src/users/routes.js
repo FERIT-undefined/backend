@@ -10,7 +10,7 @@ const remove = require('./remove/remove')
 const list = require('./list/list')
 const patch = require('./patch/patch')
 
-router.get('/', authenticateJWT, list);
+router.post('/', authenticateJWT, list);
 router.post('/register', validateRegisterUser, register);
 router.post('/login', validateLoginUser, login);
 router.post('/logout', logout);

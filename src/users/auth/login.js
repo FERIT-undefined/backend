@@ -28,6 +28,7 @@ async function login(req, res) {
           role: user.role,
           accessToken,
           refreshToken: user.refreshToken,
+          id: user.id
         },
       });
     }
