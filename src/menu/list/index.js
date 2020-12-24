@@ -10,6 +10,7 @@ async function listAllMeals(req, res) {
         allMeals = allMeals.map((meal) => {
 
             return {
+                id: meal.id,
                 name: meal.name,
                 description: meal.description,
                 price: meal.price + ((meal.price * (meal.pdv / 100)) - (meal.price * (meal.discount / 100))),
