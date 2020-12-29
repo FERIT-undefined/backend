@@ -1,4 +1,3 @@
-module.exports = login;
 const User = require("../schema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -13,7 +12,7 @@ async function login(req, res) {
 
   const result = serializer.validate(req.body);
   if(result.error) {
-      return res.status(400).send(result.error);
+    return res.status(400).send(result.error);
   }
 
   const user = await User.findOne({ email: result.value.email });
@@ -46,3 +45,5 @@ async function login(req, res) {
     });
   }  
 }
+
+module.exports = login;
