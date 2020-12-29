@@ -13,8 +13,10 @@ async function listAllMeals(req, res) {
                 id: meal.id,
                 name: meal.name,
                 description: meal.description,
-                price: meal.price + ((meal.price * (meal.pdv / 100)) - (meal.price * (meal.discount / 100))),
-                type: meal.type
+                price: meal.price,
+                type: meal.type,
+                pdv: meal.pdv,
+                discount: meal.discount
             };
         });
         return res.status(200).json({ allMeals });
