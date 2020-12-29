@@ -8,8 +8,7 @@ async function remove(req, res) {
     const id = req.params.id;
     if (id == null || id.length != 24) return res.status(400);
 
-    const data = req.body;
-    const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
+    const authorizedUser = await User.findOne({ refreshToken: req.body.refreshToken });
     if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403);
 
     try {
