@@ -13,7 +13,7 @@ async function remove(req, res) {
 
     try {
         await Meal.findByIdAndRemove(id);
-        return res.status(410).json({ status: 'Meal removed' });
+        return res.send('Meal removed');
     }
     catch(err) {
         return res.status(500).json({ error: err });
