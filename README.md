@@ -3,6 +3,72 @@
 ## User module
 **Endpoint:** http://localhost:8000/users/
 
+### Login user (POST)
+**Endpoint:** http://localhost:8000/user/login<br/>
+**Request body:**<br/>
+```json
+{
+  "email": "marin123@email.com",
+  "password": "marin123"
+}	
+```
+
+### Register new user (POST)
+**Endpoint:** http://localhost:8000/user/register<br/>
+**Request body:**<br/>
+```json
+{
+  "fname": "Marin",
+  "lname": "Maric",
+  "email": "marin123@email.com",
+  "role": "kuhar",
+  "password": "marin123"
+}	
+```
+
+### Logout user (POST)
+**Endpoint:** http://localhost:8000/user/logout<br/>
+**Request body:**<br/>
+```json
+{
+  "refreshToken": "TOKEN"
+}	
+```
+
+### Get all users (POST)
+**Endpoint:** http://localhost:8000/user/<br/>
+**Request body:**<br/>
+```json
+{
+  "accessToken": "TOKEN",
+  "refreshToken": "TOKEN"
+}	
+```
+
+### Remove user (DELETE)
+**Endpoint:** http://localhost:8000/user/remove/:id<br/>
+**Request body:**<br/>
+```json
+{
+  "accessToken": "TOKEN",
+  "refreshToken": "TOKEN"
+}	
+```
+
+### Edit user (PATCH)
+**Endpoint:** http://localhost:8000/user/:id<br/>
+**Request body:**<br/>
+```json
+{
+  "fname": "Marino",
+  "lname": "Maric",
+  "email": "marino1202@email.com",
+  "password": "marin2020",
+  "accessToken": "TOKEN",
+  "refreshToken": "TOKEN"
+}	
+```
+
 ## Menu module
 **Endpoint:** http://localhost:8000/menu/
 
@@ -30,7 +96,7 @@
 **Request body:** **NONE**
 
 ### Edit meal from the menu (PATCH)
-**Endpoint:** http://localhost:8000/menu/MEA_ID<br/>
+**Endpoint:** http://localhost:8000/menu/MEAL_ID<br/>
 **Request body:**
 ```json
 {
