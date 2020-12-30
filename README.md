@@ -1,16 +1,16 @@
 # Brza Klopa API
 
-## User modul
+## User module
 **Endpoint:** http://localhost:8000/users/
 
-## Menu modul
+## Menu module
 **Endpoint:** http://localhost:8000/menu/
 
 ### All meals on the menu (GET)
 **Endpoint:** http://localhost:8000/menu/<br/>
 **Request body:** **NONE**
 
-### Add new meal on the menu (POST)
+### Add a new meal on the menu (POST)
 **Endpoint:** http://localhost:8000/menu/add<br/>
 **Request body:**<br/>
 ```json
@@ -25,11 +25,11 @@
 }	
 ```
 
-### Remove meal from menu (DELETE)
+### Remove meal from the menu (DELETE)
 **Endpoint:** http://localhost:8000/menu/remove/MEAL_ID<br/>
 **Request body:** **NONE**
 
-### Edit meal from menu (PATCH)
+### Edit meal from the menu (PATCH)
 **Endpoint:** http://localhost:8000/menu/MEA_ID<br/>
 **Request body:**
 ```json
@@ -44,7 +44,7 @@
 }
 ```
 
-## Order modul
+## Order module
 **Endpoint:** http://localhost:8000/order/
 
 ### All orders (GET)
@@ -118,7 +118,7 @@
 ```
 
 
-## Traffic modul
+## Traffic module
 **Endpoint:** http://localhost:8000/traffic/
 
 ### Get all finished orders in the given DateTime range(ISO 8601) (GET)
