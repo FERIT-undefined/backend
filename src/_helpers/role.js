@@ -1,4 +1,6 @@
 module.exports = {
     Admin: 'Admin',
-    User: 'User'
-  }
+    Kuhar: 'Kuhar',
+    Konobar: 'Konobar',
+    
+  };

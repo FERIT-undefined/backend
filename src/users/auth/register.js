@@ -27,13 +27,13 @@ async function register(req, res, next) {
   const passwordHash = bcrypt.hashSync(result.value.password, 10);
 
   if(!result.value.role){
-    result.value.role = "User"
+    result.value.role = role.Konobar;
   }
 
   newUser.fname = result.value.fname;
   newUser.lname = result.value.lname;
   newUser.email = result.value.email;
-  newUser.role = result.value.role.toLowerCase() == "admin" ? role.Admin : role.User;
+  newUser.role = getRole(result.value.role.toLowerCase())
   newUser.password = passwordHash;
 
   try {
@@ -65,6 +65,16 @@ async function register(req, res, next) {
   } catch (err) {
     return res.status(500).json({ error: err });
   }
+}
+
+function getRole(string) {
+  if(string == 'admin') {
+      return role.Admin;
+  }
+  else if(string == 'kuhar') {
+      return role.Kuhar;
+  }
+  else return role.Konobar;
 }
 
 module.exports = register;
