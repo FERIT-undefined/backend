@@ -123,5 +123,5 @@
 
 ### Get all finished orders in the given DateTime range(ISO 8601) (GET)
 **Endpoint:** http://localhost:8000/order/:start/:end<br/>
-**Example of using endpoint:** http://localhost:8000/traffic/2020-12-22T11:00:00/2020-12-22T12:00:00 (gets all orders finished between 22.12.2020. 11:00h and 22.12.2020. 12:00h)
+**Example of using endpoint:** http://localhost:8000/traffic/2020-12-22T11:00:00/2020-12-22T12:00:00 (gets all orders finished between 22.12.2020. 11:00h and 22.12.2020. 12:00h)<br/>
 **Request body:** **NONE**
