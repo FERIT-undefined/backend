@@ -7,7 +7,7 @@
 **Endpoint:** http://localhost:8000/menu/
 
 ### All meals on the menu (GET)
-**Endpoint:** http://localhost:8000/menu/
+**Endpoint:** http://localhost:8000/menu/*<br/>
 **Request body:** **NONE**
 
 ### Add new meal on the menu (POST)
@@ -48,15 +48,15 @@
 **Endpoint:** http://localhost:8000/order/
 
 ### All orders (GET)
-**Endpoint:** http://localhost:8000/order/
+**Endpoint:** http://localhost:8000/order/*<br/>
 **Request body:** **NONE**
 
 ### List orders by table ID (GET)
-**Endpoint:** http://localhost:8000/order/:table
+**Endpoint:** http://localhost:8000/order/:table*<br/>
 **Request body:** **NONE**
 
 ### List orders by meal ID (GET)
-**Endpoint:** http://localhost:8000/order/:table/:meal
+**Endpoint:** http://localhost:8000/order/:table/:meal*<br/>
 **Request body:** **NONE**
 
 ### Add new order (POST)
