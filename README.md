@@ -87,13 +87,20 @@
   "type": "grill",
   "pdv": 25,
   "discount": 0,
+  "accessToken": "TOKEN",
   "refreshToken": "TOKEN"
 }	
 ```
 
 ### Remove meal from the menu (DELETE)
 **Endpoint:** http://localhost:8000/menu/remove/MEAL_ID<br/>
-**Request body:** **NONE**
+**Request body:**<br/>
+```json
+{
+  "accessToken": "TOKEN",
+  "refreshToken": "TOKEN"
+}	
+```
 
 ### Edit meal from the menu (PATCH)
 **Endpoint:** http://localhost:8000/menu/MEAL_ID<br/>
@@ -106,6 +113,7 @@
   "type": "grill",
   "pdv": 25,
   "discount": 10,
+  "accessToken": "TOKEN",
   "refreshToken": "TOKEN"
 }
 ```
