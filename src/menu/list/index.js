@@ -6,7 +6,7 @@ async function listAllMeals(req, res) {
 
     try {
 
-        if(!allMeals) return res.status(404).json({ error: 'There are no meals in a database' });
+        if(allMeals.length == 0) return res.status(404).json({ error: 'There are no meals in a database' });
         allMeals = allMeals.map((meal) => {
 
             return {

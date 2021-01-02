@@ -16,7 +16,7 @@ async function select(req, res) {
     let traffic = await OrderTraffic.find({'finished_timestamp': {'$gte': new Date(resultParams.value.start).getTime(), '$lt': new Date(resultParams.value.end).getTime() }});
     try {
 
-        if(!traffic) return res.status(404).json({ error: 'There are no traffic in a database in the given time range' });
+        if(traffic.length == 0) return res.status(404).json({ error: 'There are no traffic in a database in the given time range' });
         traffic = traffic.map((meal) => {
 
             return {

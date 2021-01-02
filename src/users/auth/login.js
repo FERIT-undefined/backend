@@ -43,7 +43,8 @@ async function login(req, res) {
         refreshToken: user.refreshToken
       }
     });
-  }  
+  }
+  return res.status(401).json({ error: "Invalid user credentials" });
 }
 
 module.exports = login;

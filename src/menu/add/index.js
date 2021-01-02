@@ -6,8 +6,8 @@ const mealType = require("../../_helpers/meals");
 const role = require("../../_helpers/role");
 
 const serializer = Joi.object({
-    name: Joi.string().email().required(),
-    description: Joi.string().email().required(),
+    name: Joi.string().required(),
+    description: Joi.string().required(),
     price: Joi.number().required(),
     type: Joi.string().required(),
     pdv: Joi.number().required(),
@@ -17,19 +17,19 @@ const serializer = Joi.object({
 
 async function add(req, res) {
 
+    delete req.body.userId;
+    delete req.body.accessToken;
     const result = serializer.validate(req.body);
     if(result.error) {
         return res.status(400).send(result.error);
     }
-
     const authorizedUser = await User.findOne({ refreshToken: result.value.refreshToken });
-    if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403); 
+    if(authorizedUser.role != role.Admin) return res.sendStatus(403); 
 
     const savedMeal = await Meal.findOne({ name: result.value.name });
     if(savedMeal) {
         return res.status(400).json({ error: 'Meal already exists on the menu' });
     }
-
     const newMeal = new Meal();
     newMeal.name = result.value.name;
     newMeal.description = result.value.description;

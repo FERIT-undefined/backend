@@ -59,7 +59,7 @@ async function patch(req, res) {
         });
       }
     } else {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
   } catch (error) {
     return res.status(400).send(error);

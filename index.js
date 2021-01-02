@@ -24,3 +24,5 @@ app.use(express.json());
 
 // Start Express Listen
 app.listen(8000);
+
+module.exports = app; // for testing

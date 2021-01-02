@@ -13,7 +13,6 @@ const serializer = Joi.object({
 });
 
 async function register(req, res, next) {
-
   const result = serializer.validate(req.body);
   if(result.error) {
     return res.status(400).send(result.error);
@@ -37,7 +36,6 @@ async function register(req, res, next) {
   newUser.password = passwordHash;
 
   try {
-
     const savedUser = await newUser.save();
     const payload = {
       user: {

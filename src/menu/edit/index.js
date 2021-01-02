@@ -6,8 +6,8 @@ const mealType = require("../../_helpers/meals");
 const role = require("../../_helpers/role");
 
 const serializer = Joi.object({
-  name: Joi.string().email().required(),
-  description: Joi.string().email().required(),
+  name: Joi.string().required(),
+  description: Joi.string().required(),
   price: Joi.number().required(),
   type: Joi.string().required(),
   pdv: Joi.number().required(),
@@ -17,6 +17,8 @@ const serializer = Joi.object({
 
 async function editMeal(req, res) {
 
+    delete req.body.userId;
+    delete req.body.accessToken;
     const id = req.params.id;
     if (id == null || id.length != 24) return res.status(400).send('Invalid meal ID');
 
@@ -26,7 +28,7 @@ async function editMeal(req, res) {
     }
 
     const authorizedUser = await User.findOne({ refreshToken: result.value.refreshToken });    
-    if(!authorizedUser || authorizedUser.role != role.Admin) return res.status(403); 
+    if(!authorizedUser || authorizedUser.role != role.Admin) return res.sendStatus(403); 
 
     await Meal.findByIdAndUpdate(id, { 
         name: result.value.name, 
@@ -55,9 +57,7 @@ function getMealTypeFromString(string) {
     else if(string == 'desert') {
         return mealType.Desert;
     }
-    else if(string == 'grill') {
-        return mealType.Grill;
-    }
+    else return mealType.Grill;
 }
 
 module.exports = editMeal;
