@@ -153,6 +153,7 @@
     }
   ],
   "total_price": 90,
+  "accessToken": "TOKEN",
   "refreshToken": "TOKEN"
 }
 ```
@@ -177,6 +178,7 @@
     }
   ],
   "total_price": 90,
+  "accessToken": "TOKEN",
   "refreshToken": "TOKEN"
 }
 ```
@@ -187,6 +189,7 @@
 ```json
 {
   "status": "done",
+  "accessToken": "TOKEN",
   "refreshToken": "TOKEN"
 }
 ```
