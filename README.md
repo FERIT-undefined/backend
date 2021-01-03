@@ -144,15 +144,18 @@
       "name": "Čevapi",
       "price": 20,
       "quantity": 3,
-      "status": "Ordered"
+      "status": "Ordered",
+      "type": "Grill"
     }, {
       "name": "Gulaš",
       "price": 30,
       "quantity": 1,
-      "status": "Ordered"
+      "status": "Ordered",
+      "type": "Main Course"
     }
   ],
   "total_price": 90,
+  "accessToken": "TOKEN",
   "refreshToken": "TOKEN"
 }
 ```
@@ -168,15 +171,18 @@
       "name": "Čevapi",
       "price": 20,
       "quantity": 3,
-      "status": "Ordered"
+      "status": "Ordered",
+      "type": "Grill"
     }, {
       "name": "Gulaš",
       "price": 30,
       "quantity": 1,
-      "status": "Ordered"
+      "status": "Ordered",
+      "type": "Main Course"
     }
   ],
   "total_price": 90,
+  "accessToken": "TOKEN",
   "refreshToken": "TOKEN"
 }
 ```
@@ -187,6 +193,7 @@
 ```json
 {
   "status": "done",
+  "accessToken": "TOKEN",
   "refreshToken": "TOKEN"
 }
 ```
