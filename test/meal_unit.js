@@ -111,6 +111,18 @@ describe("Menu API Test", () => {
         .end(done);
     });
 
+    it("should return 401 unauthorized", (done) => {
+      server
+        .post("/menu/add")
+        .send({
+          ...defaultMenu,
+          accessToken: "",
+          refreshToken: "",
+        })
+        .expect(401)
+        .end(done);
+    });
+
     it("should return 403 forbidden for user role", (done) => {
       server
         .post("/menu/add")
@@ -136,6 +148,17 @@ describe("Menu API Test", () => {
       });
     });
 
+    it("should return 201 meal successfully removed", (done) => {
+      server
+        .delete("/menu/remove/" + menu.id)
+        .send({
+          accessToken: "",
+          refreshToken: admin.refreshToken,
+        })
+        .expect(201)
+        .end(done);
+    });
+
     it("should return 400 invalid ID length", (done) => {
       server
         .delete("/menu/remove/123")
@@ -147,6 +170,17 @@ describe("Menu API Test", () => {
         .end(done);
     });
 
+    it("should return 401 unauthorized", (done) => {
+      server
+        .delete("/menu/remove/123")
+        .send({
+          accessToken: "",
+          refreshToken: "",
+        })
+        .expect(401)
+        .end(done);
+    });
+
     it("should return 403 forbidden for user role", (done) => {
       server
         .delete("/menu/remove/" + menu.id)
@@ -155,17 +189,6 @@ describe("Menu API Test", () => {
           refreshToken: user.refreshToken,
         })
         .expect(403)
-        .end(done);
-    });
-
-    it("should return 201 meal successfully removed", (done) => {
-      server
-        .delete("/menu/remove/" + menu.id)
-        .send({
-          accessToken: "",
-          refreshToken: admin.refreshToken,
-        })
-        .expect(201)
         .end(done);
     });
   });
@@ -199,18 +222,6 @@ describe("Menu API Test", () => {
         .end(done);
     });
 
-    it("should return 403 forbidden for user role", (done) => {
-      server
-        .patch("/menu/" + menu.id)
-        .send({
-          ...defaultMenu,
-          accessToken: "",
-          refreshToken: user.refreshToken,
-        })
-        .expect(403)
-        .end(done);
-    });
-
     it("should return 400 bad request wrong body parameters", (done) => {
       server
         .patch("/menu/" + menu.id)
@@ -221,6 +232,18 @@ describe("Menu API Test", () => {
           fail: true,
         })
         .expect(400)
+        .end(done);
+    });
+
+    it("should return 403 forbidden for user role", (done) => {
+      server
+        .patch("/menu/" + menu.id)
+        .send({
+          ...defaultMenu,
+          accessToken: "",
+          refreshToken: user.refreshToken,
+        })
+        .expect(403)
         .end(done);
     });
   });

@@ -131,14 +131,14 @@ describe("Order API Test", () => {
         .end(done);
     });
 
+    it("should return 400 bad request parameters", (done) => {
+      server.get("/order/a").expect(400).end(done);
+    });
+
     it("should return 404 no orders in database for given table", (done) => {
       TableOrder.deleteMany({}, (res) => {
         server.get("/order/1").expect(404).end(done);
       }).catch(done);
-    });
-
-    it("should return 400 bad request parameters", (done) => {
-      server.get("/order/a").expect(400).end(done);
     });
   });
 
@@ -165,6 +165,10 @@ describe("Order API Test", () => {
         .end(done);
     });
 
+    it("should return 400 bad request parameters", (done) => {
+      server.get("/order/1/word").expect(400).end(done);
+    });
+
     it("should return 404 no orders in database for given table", (done) => {
       TableOrder.deleteMany({}, (res) => {
         server.get("/order/1/2").expect(404).end(done);
@@ -173,10 +177,6 @@ describe("Order API Test", () => {
 
     it("should return 404 no meals for given meal number", (done) => {
       server.get("/order/1/15").expect(404).end(done);
-    });
-
-    it("should return 400 bad request parameters", (done) => {
-      server.get("/order/1/word").expect(400).end(done);
     });
   });
 
@@ -195,17 +195,6 @@ describe("Order API Test", () => {
           ...defaultOrder,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
-        })
-        .end(done);
-    });
-
-    it("should return 401 unauthorized", (done) => {
-      server
-        .post("/order/add")
-        .expect(401)
-        .send({
-          ...defaultOrder,
-          accessToken: user.accessToken,
         })
         .end(done);
     });
@@ -232,6 +221,17 @@ describe("Order API Test", () => {
           ...newOrder,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
+        })
+        .end(done);
+    });
+
+    it("should return 401 unauthorized", (done) => {
+      server
+        .post("/order/add")
+        .expect(401)
+        .send({
+          ...defaultOrder,
+          accessToken: user.accessToken,
         })
         .end(done);
     });
@@ -294,6 +294,22 @@ describe("Order API Test", () => {
             ...defaultOrder,
             accessToken: admin.accessToken,
             refreshToken: admin.refreshToken,
+          })
+          .end(done);
+      }).catch(done);
+    });
+
+    it("should return 401 unauthorized", (done) => {
+      TableOrder.findOne({ table: defaultOrder.table }, (err, res) => {
+        res.total_price = 99;
+        server
+          .patch("/order/" + res._id)
+          .expect(401)
+          .send({
+            table: parseInt(res.table),
+            meals: res.meals,
+            total_price: 99,
+            accessToken: admin.accessToken,
           })
           .end(done);
       }).catch(done);

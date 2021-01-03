@@ -141,9 +141,25 @@ describe("Users API Test", () => {
         done();
       }).catch((err) => done(err));
     });
+
+    it("should return 400 bad request no refresh token", (done) => {
+      server
+        .post("/users/logout")
+        .send({ refreshToken: "" })
+        .expect(200)
+        .end(done);
+    });
   });
 
   describe("POST /users", () => {
+    it("should return 401 role not authorized", (done) => {
+      server
+        .post("/users")
+        .send({ refreshToken: "" })
+        .expect(401)
+        .end(done);
+    });
+
     describe("Default role", () => {
       before((done) => {
         User.findOneAndRemove({ email: userData.email }, (err) => {
@@ -191,14 +207,6 @@ describe("Users API Test", () => {
           })
           .end(done);
       });
-
-      it("should return 401 missing tokens", (done) => {
-        server
-          .post("/users")
-          .send({ refreshToken: admin.refreshToken })
-          .expect(401)
-          .end(done);
-      });
     });
   });
 
@@ -241,19 +249,27 @@ describe("Users API Test", () => {
         .catch((err) => done(err));
     });
 
-    it("should return 403 role not authorized", (done) => {
+    it("should return 400 wrong id length", (done) => {
+      server
+        .delete("/users/remove/" + adminData.fname)
+        .send({ accessToken: "", refreshToken: admin.refreshToken })
+        .expect(400)
+        .end(done);
+    });
+
+    it("should return 401 role not authorized", (done) => {
+      server
+        .delete("/users/remove/" + user.id)
+        .send({ accessToken: "", refreshToken: "" })
+        .expect(401)
+        .end(done);
+    });
+
+    it("should return 403 forbidden access", (done) => {
       server
         .delete("/users/remove/" + user.id)
         .send({ accessToken: "", refreshToken: user.refreshToken })
         .expect(403)
-        .end(done);
-    });
-
-    it("should return 500 user when given id doesnt exist", (done) => {
-      server
-        .delete("/users/remove/" + user.id)
-        .send({ accessToken: "", refreshToken: admin.refreshToken })
-        .expect(500)
         .end(done);
     });
 
@@ -269,11 +285,11 @@ describe("Users API Test", () => {
         .catch((err) => done(err));
     });
 
-    it("should return 400 wrong id length", (done) => {
+    it("should return 500 user when given id doesnt exist", (done) => {
       server
-        .delete("/users/remove/" + adminData.fname)
+        .delete("/users/remove/" + user.id)
         .send({ accessToken: "", refreshToken: admin.refreshToken })
-        .expect(400)
+        .expect(500)
         .end(done);
     });
   });
@@ -343,22 +359,6 @@ describe("Users API Test", () => {
         .catch((err) => done(err));
     });
 
-    it("should return 401 role not authorized", (done) => {
-      User.find({ email: adminData.email })
-        .then((res) => {
-          server
-            .patch("/users/" + res[0]._id)
-            .send({
-              fname: newFname,
-              accessToken: "",
-              refreshToken: user.refreshToken,
-            })
-            .expect(401)
-            .end(done);
-        })
-        .catch((err) => done(err));
-    });
-
     it("should return 400 invalid ID", (done) => {
       server
         .patch("/users/" + admin.fname)
@@ -398,6 +398,22 @@ describe("Users API Test", () => {
               refreshToken: admin.refreshToken,
             })
             .expect(400)
+            .end(done);
+        })
+        .catch((err) => done(err));
+    });
+
+    it("should return 401 role not authorized", (done) => {
+      User.find({ email: adminData.email })
+        .then((res) => {
+          server
+            .patch("/users/" + res[0]._id)
+            .send({
+              fname: newFname,
+              accessToken: "",
+              refreshToken: user.refreshToken,
+            })
+            .expect(401)
             .end(done);
         })
         .catch((err) => done(err));
