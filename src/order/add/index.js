@@ -10,6 +10,10 @@ const serializer = Joi.object({
 
 async function add(req, res) {
 
+    delete req.body.accessToken;
+    delete req.body.refreshToken;
+    delete req.body.userId;
+    
     const result = serializer.validate(req.body);
     if(result.error) {
         return res.status(400).send(result.error);

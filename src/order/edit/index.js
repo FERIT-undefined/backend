@@ -2,7 +2,7 @@ const TableOrder = require('../schema');
 const Joi = require('joi');
 
 const validatorParams = Joi.object({
-    id: Joi.string().required()
+    id: Joi.string().length(24).required()
 });
 
 const validatorBody = Joi.object({
@@ -14,14 +14,12 @@ const validatorBody = Joi.object({
 
 async function edit(req, res) {
 
+    delete req.body.accessToken;
+    delete req.body.userId;
+
     const resultParams = validatorParams.validate(req.params);
     if(resultParams.error) {
         return res.status(400).send(resultParams.error);
-    }
-
-    const authorizedUser = await User.findOne({ refreshToken: data.refreshToken });
-    if(!authorizedUser) {
-        return res.status(403);
     }
 
     const resultBody = validatorBody.validate(req.body);

@@ -34,7 +34,7 @@ async function editMeal(req, res) {
         name: result.value.name, 
         description: result.value.description, 
         price: result.value.price,
-        type: getMealTypeFromString(result.value.type), 
+        type: getMealTypeFromString(result.value.type.toLowerCase()), 
         pdv: result.value.pdv, 
         discount: result.value.discount 
     });

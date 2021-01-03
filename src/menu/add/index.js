@@ -58,9 +58,7 @@ function getMealTypeFromString(string) {
     else if(string == 'desert') {
         return mealType.Desert;
     }
-    else if(string == 'grill') {
-        return mealType.Grill;
-    }
+    else return mealType.Grill;
 }
 
 module.exports = add;

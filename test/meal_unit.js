@@ -2,6 +2,7 @@ const app = require("../index");
 const request = require("supertest");
 const User = require("../src/users/schema");
 const Menu = require("../src/menu/schema");
+const mealType = require("../src/_helpers/meals");
 const { expect } = require("chai");
 
 const userData = {
@@ -24,7 +25,7 @@ const defaultMenu = {
   name: "Palačinke",
   description: "Najfinije palacinke u gradu sa voćnim prelijevom",
   price: 23,
-  type: "Desert",
+  type: mealType.Desert,
   pdv: 15,
   discount: 5,
 };
@@ -61,10 +62,6 @@ describe("Menu API Test", () => {
   });
 
   describe("GET /menu", () => {
-    before((done) => {
-      menu = new Menu(defaultMenu)
-      menu.save(done)
-    });
 
     it("should return all meals on menu", (done) => {
       server
@@ -129,8 +126,8 @@ describe("Menu API Test", () => {
 
   describe("DELETE /menu/remove/:id", () => {
     before((done) => {
-      menu = new Menu(defaultMenu)
-      menu.save(done)
+      menu = new Menu(defaultMenu);
+      menu.save(done);
     });
 
     after((done) => {
@@ -172,11 +169,11 @@ describe("Menu API Test", () => {
         .end(done);
     });
   });
-  
+
   describe("PATCH /menu/:id", () => {
     before((done) => {
-      menu = new Menu(defaultMenu)
-      menu.save(done)
+      menu = new Menu(defaultMenu);
+      menu.save(done);
     });
 
     it("should return 200 meal successfully edited", (done) => {
@@ -185,12 +182,12 @@ describe("Menu API Test", () => {
         .send({
           ...defaultMenu,
           accessToken: "",
-          refreshToken: admin.refreshToken
+          refreshToken: admin.refreshToken,
         })
         .expect(200)
         .end(done);
     });
-    
+
     it("should return 400 invalid ID length", (done) => {
       server
         .patch("/menu/123")
@@ -201,7 +198,7 @@ describe("Menu API Test", () => {
         .expect(400)
         .end(done);
     });
-    
+
     it("should return 403 forbidden for user role", (done) => {
       server
         .patch("/menu/" + menu.id)
@@ -221,7 +218,7 @@ describe("Menu API Test", () => {
           ...defaultMenu,
           accessToken: "",
           refreshToken: admin.refreshToken,
-          fail: true
+          fail: true,
         })
         .expect(400)
         .end(done);

@@ -9,20 +9,9 @@ const defaultTrafic = {
   end: "2020-12-30T12:00:00",
 };
 
-var user, admin, menu;
-
 const server = request(app);
 
 describe("Traffic API Test", () => {
-  before((done) => {
-    const trafficOrder = new OrderTraffic();
-    trafficOrder.name = "Čevapi";
-    trafficOrder.price = 30;
-    trafficOrder.type = meals.Grill;
-    trafficOrder.finished_timestamp = new Date("2020-12-25T11:00:00").getTime();
-    trafficOrder.save(done);
-  });
-
   before((done) => {
     const trafficOrder = new OrderTraffic();
     trafficOrder.name = "Palačinke";
@@ -42,9 +31,8 @@ describe("Traffic API Test", () => {
         })
         .end(done);
     });
-  });
 
-  describe("GET /order/:start/:end", () => {
+  
     it("return 404 when no orders between given datetimes", (done) => {
       OrderTraffic.deleteMany({}, (res) => {
         server

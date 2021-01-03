@@ -7,8 +7,8 @@ const Joi = require('joi');
 const orderStatus = require('../../_helpers/orderStatus');
 
 const validatorParams = Joi.object({
-    table: Joi.string().required(),
-    meal: Joi.string().required()
+    table: Joi.number().required(),
+    meal: Joi.number().required()
 });
 
 const validatorBody = Joi.object({
@@ -17,14 +17,13 @@ const validatorBody = Joi.object({
 
 async function edit(req, res) {
 
+    delete req.body.accessToken;
+    delete req.body.refreshToken;
+    delete req.body.userId;
+
     const resultParams = validatorParams.validate(req.params);
     if(resultParams.error) {
         return res.status(400).send(resultParams.error);
-    }
-
-    const authorizedUser = await User.findOne({ refreshToken: req.body.refreshToken });
-    if(!authorizedUser) {
-        return res.status(403);
     }
 
     const resultBody = validatorBody.validate(req.body);
@@ -32,31 +31,34 @@ async function edit(req, res) {
         return res.status(400).send(resultBody.error);
     }
 
-    if(!orderStatus.isValidStatus(resultBody.value.status)) {
-        return res.status(400).send('Invalid status');
+    if(!orderStatus.isValidStatus(resultBody.value.status.toLowerCase())) {
+        return res.status(400).send({ error: 'Invalid status' });
     }
 
     try {
-        const order = await TableOrder.findOne({ table: parseInt(resultParams.value.table) });
-        const mealId = parseInt(resultParams.value.meal);
+        const order = await TableOrder.findOne({ table: resultParams.value.table });
+        const mealIndex = resultParams.value.meal;
+        
+        if(mealIndex >= order.meals.length){
+            return res.status(400).send({ error: 'Invalid meal ID' });
+        }
 
-        order.meals[mealId].status = resultBody.value.status;
-        if(order.meals[mealId].status == orderStatus.status.Done) {
+        order.meals[mealIndex].status = resultBody.value.status;
 
-            const mealData = await Meal.findOne({ name: order.meals[mealId].name });
+        if(order.meals[mealIndex].status == orderStatus.status.Done) {
+            const mealData = await Meal.findOne({ name: order.meals[mealIndex].name });
             if(!mealData) {
                 return res.status(500).json({ status: 'Meal not found in the database.' });
             }
 
             await insertOrderTraffic(mealData);
-            remove(order.meals, order.meals[mealId]);
+            remove(order.meals, order.meals[mealIndex]);
         }
 
         order.markModified('meals');
         await order.save();
-
         if(order.meals.length <= 0) {
-            await TableOrder.deleteOne({ table: parseInt(resultParams.value.table) });
+            await TableOrder.deleteOne({ table: resultParams.value.table });
         }
 
         return res.status(200).json({ status: 'Order status successfully edited' });
@@ -78,8 +80,8 @@ async function insertOrderTraffic(mealData) {
 }
 
 function remove(array, element) {
-    const index = array.indexOf(element);
-    array.splice(index, 1);
+    const mealIndex = array.indexOf(element);
+    array.splice(mealIndex, 1);
 }
 
 module.exports = edit;
