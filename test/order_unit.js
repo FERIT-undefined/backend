@@ -392,7 +392,7 @@ describe("Order API Test", () => {
     it("should return 404 order not found in a database", (done) => {
       server
         .patch("/order/15/33")
-        .expect(400)
+        .expect(404)
         .send({
           status: "done",
           accessToken: admin.accessToken,
