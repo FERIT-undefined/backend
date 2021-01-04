@@ -38,7 +38,7 @@ const defaultOrder = {
       name: "Palačinke",
       price: 23,
       quantity: 3,
-      status: "Ordered",
+      status: "Started",
       type: mealType.Desert,
     },
   ],
@@ -380,6 +380,18 @@ describe("Order API Test", () => {
     it("should return 400 invalid meal ID", (done) => {
       server
         .patch("/order/1/33")
+        .expect(400)
+        .send({
+          status: "done",
+          accessToken: admin.accessToken,
+          refreshToken: admin.refreshToken,
+        })
+        .end(done);
+    });
+
+    it("should return 404 order not found in a database", (done) => {
+      server
+        .patch("/order/15/33")
         .expect(400)
         .send({
           status: "done",

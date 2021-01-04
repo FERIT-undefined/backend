@@ -38,14 +38,17 @@ async function edit(req, res) {
     try {
         const order = await TableOrder.findOne({ table: resultParams.value.table });
         const mealIndex = resultParams.value.meal;
+
+        if(order == null){
+            return res.status(404).json({ status: 'Order not found in the database.' });
+        }
         
         if(mealIndex >= order.meals.length){
             return res.status(400).send({ error: 'Invalid meal ID' });
         }
 
         order.meals[mealIndex].status = resultBody.value.status;
-
-        if(order.meals[mealIndex].status == orderStatus.status.Done) {
+        if(order.meals[mealIndex].status.toLowerCase() == orderStatus.status.Done.toLowerCase()) {
             const mealData = await Meal.findOne({ name: order.meals[mealIndex].name });
             if(!mealData) {
                 return res.status(500).json({ status: 'Meal not found in the database.' });
