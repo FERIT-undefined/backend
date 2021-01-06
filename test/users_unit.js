@@ -21,7 +21,7 @@ const adminData = {
 
 const server = request(app);
 var user, admin;
-const newRole = "SuperAdmin";
+const newRole = "Konobar";
 const newEmail = "wrongmail.com";
 const newFname = "Admin";
 
@@ -359,6 +359,22 @@ describe("Users API Test", () => {
         .catch((err) => done(err));
     });
 
+    it("should return successfully update user role", (done) => {
+      User.find({ email: userData.email })
+        .then((res) => {
+          server
+            .patch("/users/" + res[0]._id)
+            .send({
+              role: newRole,
+              accessToken: "",
+              refreshToken: admin.refreshToken,
+            })
+            .expect(200)
+            .end(done);
+        })
+        .catch((err) => done(err));
+    });
+
     it("should return 400 invalid role", (done) => {
       User.find({ email: userData.email })
         .then((res) => {
@@ -385,22 +401,6 @@ describe("Users API Test", () => {
         })
         .expect(400)
         .end(done);
-    });
-
-    it("should return 400 invalid updates", (done) => {
-      User.find({ email: adminData.email })
-        .then((res) => {
-          server
-            .patch("/users/" + res[0]._id)
-            .send({
-              role: newRole,
-              accessToken: "",
-              refreshToken: admin.refreshToken,
-            })
-            .expect(400)
-            .end(done);
-        })
-        .catch((err) => done(err));
     });
 
     it("should return 400 wrong email format", (done) => {
