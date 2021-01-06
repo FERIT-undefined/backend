@@ -23,8 +23,9 @@ async function add(req, res) {
     if(result.error) {
         return res.status(400).send(result.error);
     }
+
     const authorizedUser = await User.findOne({ refreshToken: result.value.refreshToken });
-    if(authorizedUser.role != role.Admin) return res.sendStatus(403); 
+    if(authorizedUser && authorizedUser.role != role.Admin) return res.sendStatus(403); 
 
     const savedMeal = await Meal.findOne({ name: result.value.name });
     if(savedMeal) {
