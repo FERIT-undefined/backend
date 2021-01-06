@@ -16,7 +16,7 @@ async function patch(req, res) {
 
   const updates = Object.keys(req.body);
 
-  const allowedUpdates = ["fname", "lname", "email", "password"];
+  const allowedUpdates = ["fname", "lname", "email", "password", "role"];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
@@ -28,6 +28,12 @@ async function patch(req, res) {
   if (req.body.email) {
     const isValid = validateEmail(req.body.email);
     if (!isValid) return res.status(400).send("Wrong email format!");
+  }
+
+  if (req.body.role) {
+    const validRole = getRole(req.body.role.toLowerCase());
+    if (validRole == null) return res.status(400).send("Invalid role!");
+    else req.body.role = validRole;
   }
 
   if (req.body.password) {
@@ -69,4 +75,14 @@ async function patch(req, res) {
 function validateEmail(email) {
   var re = /\S+@\S+\.\S+/;
   return re.test(email);
+}
+
+function getRole(string) {
+  if (string == "admin") {
+    return role.Admin;
+  } else if (string == "kuhar") {
+    return role.Kuhar;
+  } else if (string == "konobar") {
+    return role.Konobar;
+  } else null;
 }
