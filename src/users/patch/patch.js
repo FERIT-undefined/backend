@@ -45,7 +45,8 @@ async function patch(req, res) {
     const user = await User.findOne({
       refreshToken,
     });
-    if (user && (user.id == id || user.role == role.Admin)) {
+    
+    if (user && (user.role == role.Admin || (id == user.id && req.body.role == null))) {
       const updatedUser = await User.findByIdAndUpdate(id, req.body, {
         new: true,
         runValidators: true,

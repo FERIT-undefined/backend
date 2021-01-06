@@ -359,6 +359,22 @@ describe("Users API Test", () => {
         .catch((err) => done(err));
     });
 
+    it("should return 400 invalid role", (done) => {
+      User.find({ email: userData.email })
+        .then((res) => {
+          server
+            .patch("/users/" + res[0]._id)
+            .send({
+              role: "test",
+              accessToken: "",
+              refreshToken: admin.refreshToken,
+            })
+            .expect(400)
+            .end(done);
+        })
+        .catch((err) => done(err));
+    });
+
     it("should return 400 invalid ID", (done) => {
       server
         .patch("/users/" + admin.fname)
