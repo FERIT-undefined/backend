@@ -1,6 +1,6 @@
 module.exports = {
-    Appetizer: 'Appetizer',
-    MainCourse: 'Main Course',
+    Appetizer: 'Predjelo',
+    MainCourse: 'Glavno Jelo',
     Desert: 'Desert',
     Grill: 'Grill'
 };

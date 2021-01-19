@@ -48,10 +48,10 @@ async function editMeal(req, res) {
 
 function getMealTypeFromString(string) {
 
-    if(string == 'appetizer') {
+    if(string == 'predjelo') {
         return mealType.Appetizer;
     }
-    else if(string == 'main course') {
+    else if(string == 'glavno jelo') {
         return mealType.MainCourse;
     }
     else if(string == 'desert') {
