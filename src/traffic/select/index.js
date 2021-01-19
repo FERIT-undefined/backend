@@ -17,14 +17,6 @@ async function select(req, res) {
     try {
 
         if(traffic.length == 0) return res.status(404).json({ error: 'There are no traffic in a database in the given time range' });
-        traffic = traffic.map((meal) => {
-
-            return {
-                name: meal.name,
-                price: meal.price,
-                type: meal.type
-            };
-        });
         return res.status(200).json({ traffic });
     }
     catch(err) {

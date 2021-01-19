@@ -1,22 +1,17 @@
 const mongoose = require("mongoose");
-const mealType = require("../_helpers/meals.js");
 
 const Schema = mongoose.Schema;
 
 const orderTraffic = new Schema(
   {
-    name: {
+    billId: {
         type: Schema.Types.String,
         required: true
     },
-    price: {
-      type: Schema.Types.Number,
+    meals: {
+      type: Schema.Types.Mixed,
       required: true,
       default: 1
-    },
-    type: {
-      type: mealType,
-      required: true
     },
     finished_timestamp: {
       type: Schema.Types.Number,

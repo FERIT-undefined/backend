@@ -1,5 +1,4 @@
 const TableOrder = require('../schema');
-const User = require("../../users/schema");
 const Joi = require('joi');
 
 const serializer = Joi.object({

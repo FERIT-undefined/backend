@@ -1,5 +1,4 @@
 const TableOrder = require('../schema');
-const User = require('../../users/schema');
 const OrderTraffic = require('../../traffic/schema');
 const Meal = require('../../menu/schema');
 
@@ -48,18 +47,9 @@ async function edit(req, res) {
         }
 
         order.meals[mealIndex].status = resultBody.value.status;
-        if(order.meals[mealIndex].status.toLowerCase() == orderStatus.status.Done.toLowerCase()) {
-            const mealData = await Meal.findOne({ name: order.meals[mealIndex].name });
-            if(!mealData) {
-                return res.status(500).json({ status: 'Meal not found in the database.' });
-            }
-
-            await insertOrderTraffic(mealData);
-            remove(order.meals, order.meals[mealIndex]);
-        }
-
         order.markModified('meals');
         await order.save();
+        
         if(order.meals.length <= 0) {
             await TableOrder.deleteOne({ table: resultParams.value.table });
         }
@@ -69,22 +59,6 @@ async function edit(req, res) {
     catch(err) {
         return res.status(500).json({ error: err });
     }
-}
-
-async function insertOrderTraffic(mealData) {
-
-    const trafficOrder = new OrderTraffic();
-    trafficOrder.name = mealData.name;
-    trafficOrder.price = mealData.price;
-    trafficOrder.type = mealData.type;
-    trafficOrder.finished_timestamp = Date.now();
-
-    return await trafficOrder.save();
-}
-
-function remove(array, element) {
-    const mealIndex = array.indexOf(element);
-    array.splice(mealIndex, 1);
 }
 
 module.exports = edit;
