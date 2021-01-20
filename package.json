@@ -4,7 +4,8 @@
   "description": "REST API za BrzaKlopa aplikaciju.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "forever start index.js",
+    "stop": "forever stopall"
   },
   "repository": {
     "type": "git",
