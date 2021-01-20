@@ -61,10 +61,11 @@ async function edit(req, res) {
 }
 
 function checkIsOrderDone(meals) {
+    let isDone = true
     meals.forEach(meal => {
-        if(meal.status.toLowerCase() !== 'done') return false
+        if(meal.status.toLowerCase() !== 'done') isDone = false
     });
-    return true
+    return isDone
 }
 
 module.exports = edit;
