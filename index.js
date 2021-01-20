@@ -16,7 +16,7 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useFindAndM
     loadRoutes(app);
 
     app.get('/', (req, res) => {
-        res.send('BrzaKlopa API...');
+        res.send('Brza Klopa API..');
     });
 });
 
