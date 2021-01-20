@@ -198,6 +198,15 @@
 }
 ```
 
+### Export orders (PATCH)
+**Endpoint:** http://localhost:8000/export<br/>
+**Request body:**<br/>
+```json
+{
+    "table": TABLE_ID
+}
+```
+
 
 ## Traffic module
 **Endpoint:** http://localhost:8000/traffic/
