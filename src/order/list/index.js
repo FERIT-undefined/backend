@@ -12,7 +12,8 @@ async function listAll(req, res) {
             return {
                 table: order.table,
                 meals: order.meals,
-                total_price: order.total_price
+                total_price: order.total_price,
+                done: order.isFinished
             };
         });
         return res.status(200).json({ allOrders });
@@ -41,7 +42,8 @@ async function listByTable(req, res) {
             return {
                 table: order.table,
                 meals: order.meals,
-                total_price: order.total_price
+                total_price: order.total_price,
+                done: order.isFinished
             };
         });
         return res.status(200).json({ tableOrders });
@@ -70,7 +72,8 @@ async function listByOrderMeal(req, res) {
 
         const returnValue = {
             table: tableOrder.table,
-            meals: tableOrder.meals[resultParams.value.meal]
+            meals: tableOrder.meals[resultParams.value.meal],
+            done: tableOrder.isFinished
         };
         return res.status(200).json({ returnValue });
     }

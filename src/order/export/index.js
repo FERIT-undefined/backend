@@ -15,13 +15,16 @@ async function mealExport(req, res) {
 
     try {
 
-        const order = await TableOrder.findOneAndDelete({ table: resultBody.value.table });
+        const order = await TableOrder.findOne({ table: resultBody.value.table });
         if(order == null) {
             return res.status(404).json({ status: 'Order not found in the database.' });
         }
+        if(order.isFinished){
+            await TableOrder.findOneAndDelete({ table: resultBody.value.table });
+            await insertOrderTraffic(order);
+        }
 
         const tmpOrder = JSON.parse(JSON.stringify(order));
-        await insertOrderTraffic(order);
         return res.status(200).json({ tmpOrder });
     }
     catch(err) {

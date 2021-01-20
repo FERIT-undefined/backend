@@ -20,6 +20,11 @@ const tableOrder = new Schema(
       required: true,
       default: 0
     },
+    isFinished: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
   },
   { collection: "tableOrders" }
 );

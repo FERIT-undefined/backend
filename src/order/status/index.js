@@ -1,6 +1,4 @@
 const TableOrder = require('../schema');
-const OrderTraffic = require('../../traffic/schema');
-const Meal = require('../../menu/schema');
 
 const Joi = require('joi');
 const orderStatus = require('../../_helpers/orderStatus');
@@ -49,9 +47,10 @@ async function edit(req, res) {
         order.meals[mealIndex].status = resultBody.value.status;
         order.markModified('meals');
         await order.save();
-        
-        if(order.meals.length <= 0) {
-            await TableOrder.deleteOne({ table: resultParams.value.table });
+
+        if(checkIsOrderDone(order.meals)) {
+            order.done = true
+            await TableOrder.findByIdAndUpdate({ _id: order.id }, { isFinished: true});
         }
 
         return res.status(200).json({ status: 'Order status successfully edited' });
@@ -59,6 +58,13 @@ async function edit(req, res) {
     catch(err) {
         return res.status(500).json({ error: err });
     }
+}
+
+function checkIsOrderDone(meals) {
+    meals.forEach(meal => {
+        if(meal.status.toLowerCase() !== 'done') return false
+    });
+    return true
 }
 
 module.exports = edit;
