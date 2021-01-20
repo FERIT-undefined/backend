@@ -8,7 +8,7 @@ const app = express();
 app.use(cors())
 
 // MongoDB Connection
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true }, () => {
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true }).then(() => {
     console.log('[Debug]: Database conected!');
     loadModules();
 
@@ -19,6 +19,7 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useFindAndM
         res.send('BrzaKlopa API...');
     });
 });
+
 app.use(express.json());
 
 
