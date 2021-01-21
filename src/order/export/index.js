@@ -1,4 +1,5 @@
 const TableOrder = require('../schema');
+const Meal = require('../../menu/schema');
 const OrderTraffic = require('../../traffic/schema');
 const Joi = require('joi');
 
@@ -20,7 +21,7 @@ async function mealExport(req, res) {
             return res.status(404).json({ status: 'Order not found in the database.' });
         }
         if(order.isFinished){
-            await TableOrder.findOneAndDelete({ table: resultBody.value.table });
+            await TableOrder.deleteOne({ table: resultBody.value.table });
             await insertOrderTraffic(order);
         }
 
@@ -36,11 +37,22 @@ async function insertOrderTraffic(orderData) {
 
     const trafficOrder = new OrderTraffic();
     trafficOrder.billId = orderData.id;
-    trafficOrder.meals = orderData.meals.map(meal => ({ 
-        'name': meal.name, 
-        'price': meal.price, 
-        'quantity': meal.quantity })
-    );
+    trafficOrder.meals = [];
+
+    for (const meal of orderData.meals) {
+
+        const mealData = await Meal.findById(meal.meal_id);
+        const tmpObject = {
+            'id': meal.meal_id,
+            'name': mealData.name,
+            'description': mealData.description,
+            'type': mealData.type,
+            'price': mealData.price,
+            'pdv': mealData.pdv,
+            'discount': mealData.discount
+        };
+        trafficOrder.meals.push(tmpObject);
+    }
     trafficOrder.finished_timestamp = Date.now();
     return await trafficOrder.save();
 }
