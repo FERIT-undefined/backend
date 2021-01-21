@@ -21,7 +21,7 @@ async function mealExport(req, res) {
             return res.status(404).json({ status: 'Order not found in the database.' });
         }
         if(order.isFinished){
-            await TableOrder.deleteOne({ table: resultBody.value.table });
+            //await TableOrder.deleteOne({ table: resultBody.value.table });
             await insertOrderTraffic(order);
         }
 
@@ -51,7 +51,10 @@ async function insertOrderTraffic(orderData) {
             'pdv': mealData.pdv,
             'discount': mealData.discount
         };
-        trafficOrder.meals.push(tmpObject);
+
+        for(let i = 0; i < meal.quantity; i++) {
+            trafficOrder.meals.push(tmpObject);
+        }
     }
     trafficOrder.finished_timestamp = Date.now();
     return await trafficOrder.save();
