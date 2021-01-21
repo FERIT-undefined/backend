@@ -21,7 +21,7 @@ async function mealExport(req, res) {
             return res.status(404).json({ status: 'Order not found in the database.' });
         }
         if(order.isFinished){
-            //await TableOrder.deleteOne({ table: resultBody.value.table });
+            await TableOrder.deleteOne({ table: resultBody.value.table });
             await insertOrderTraffic(order);
         }
 
