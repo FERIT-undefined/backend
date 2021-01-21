@@ -130,7 +130,7 @@
 **Request body:** **NONE**
 
 ### List orders by meal ID (GET)
-**Endpoint:** http://localhost:8000/order/:table/:meal*<br/>
+**Endpoint:** http://localhost:8000/order/:table/:meal_id*<br/>
 **Request body:** **NONE**
 
 ### Add new order (POST)
@@ -138,25 +138,17 @@
 **Request body:**<br/>
 ```json
 {
-  "table": 1,
-  "meals": [
-    {
-      "name": "Čevapi",
-      "price": 20,
-      "quantity": 3,
-      "status": "Ordered",
-      "type": "Grill"
-    }, {
-      "name": "Gulaš",
-      "price": 30,
-      "quantity": 1,
-      "status": "Ordered",
-      "type": "Main Course"
-    }
-  ],
-  "total_price": 90,
-  "accessToken": "TOKEN",
-  "refreshToken": "TOKEN"
+	"table": 1,
+    "meals": [
+        {
+            "meal_id": "5fc121ac8eed140a1c89baf8",
+            "quantity": 3
+        }, {
+            "meal_id": "5fe1c9b3d0867f405831572a",
+            "quantity": 1
+        }
+    ],
+    "total_price": 90
 }
 ```
 
