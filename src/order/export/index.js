@@ -42,9 +42,9 @@ async function insertOrderTraffic(orderData) {
     trafficOrder.meals = [];
     for (const meal of orderData.meals) {
 
-        const mealData = await Meal.findById(meal.meal_id);
+        const mealData = await Meal.findById(meal.id);
         const tmpObject = {
-            'id': meal.meal_id,
+            'id': meal.id,
             'name': mealData.name,
             'description': mealData.description,
             'type': mealData.type,
