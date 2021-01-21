@@ -4,8 +4,8 @@
   "description": "REST API za BrzaKlopa aplikaciju.",
   "main": "index.js",
   "scripts": {
-    "start": "forever start index.js",
-    "stop": "forever stopall",
+    "start": "pm2 start index.js --name 'brzaklopa_backend'",
+    "stop": "pm2 stop brzaklopa_backend",
     "test": "mocha"
   },
   "repository": {
@@ -33,6 +33,6 @@
     "nodemon": "^2.0.6",
     "require-dir-all": "^0.4.15",
     "supertest": "^6.0.1",
-    "forever": "^3.0.4"
+    "pm2": "^4.5.1"
   }
 }
