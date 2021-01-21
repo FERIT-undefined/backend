@@ -1,4 +1,5 @@
 const TableOrder = require('../schema');
+const orderStatus = require('../../_helpers/orderStatus');
 const Joi = require('joi');
 
 const serializer = Joi.object({
@@ -26,6 +27,11 @@ async function add(req, res) {
     const newTableOrder = new TableOrder();
     newTableOrder.table = result.value.table;
     newTableOrder.meals = result.value.meals;
+
+    newTableOrder.meals.forEach((meal) => {
+        meal.status = orderStatus.status.Ordered;
+    });
+
     newTableOrder.total_price = result.value.total_price;
     newTableOrder.created_timestamp = Date.now();
 

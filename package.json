@@ -4,6 +4,7 @@
   "description": "REST API za BrzaKlopa aplikaciju.",
   "main": "index.js",
   "scripts": {
+    "start:dev": "nodemon index.js",
     "start": "pm2 start index.js --name 'brzaklopa_backend'",
     "stop": "pm2 stop brzaklopa_backend",
     "test": "mocha"
