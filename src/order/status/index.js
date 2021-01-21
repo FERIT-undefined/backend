@@ -5,7 +5,7 @@ const orderStatus = require('../../_helpers/orderStatus');
 
 const validatorParams = Joi.object({
     table: Joi.number().required(),
-    meal: Joi.number().required()
+    meal_id: Joi.string().length(24).required()
 });
 
 const validatorBody = Joi.object({
@@ -34,12 +34,11 @@ async function edit(req, res) {
 
     try {
         const order = await TableOrder.findOne({ table: resultParams.value.table });
-        const mealIndex = resultParams.value.meal;
-
         if(order == null){
             return res.status(404).json({ status: 'Order not found in the database.' });
         }
-        
+
+        const mealIndex = order.meals.findIndex(x => x.meal_id === resultParams.value.meal_id);
         if(mealIndex >= order.meals.length){
             return res.status(400).send({ error: 'Invalid meal ID' });
         }

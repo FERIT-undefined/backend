@@ -14,6 +14,6 @@ router.get('/:table/:meal', list.listByOrderMeal);
 router.post('/add', authenticateJWT, add);
 router.patch('/export', orderExport);
 router.patch('/:id', authenticateJWT, edit);
-router.patch('/:table/:meal', editStatus);
+router.patch('/:table/:meal_id', editStatus);
 
 module.exports = router;
