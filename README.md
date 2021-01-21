@@ -72,7 +72,11 @@
 ## Menu module
 **Endpoint:** http://localhost:8000/menu/
 
-### All meals on the menu (GET)
+### Returns all meals on the menu (GET)
+**Endpoint:** http://localhost:8000/menu/<br/>
+**Request body:** **NONE**
+
+### Returns meal (based on the meal id) on the menu (GET)
 **Endpoint:** http://localhost:8000/menu/<br/>
 **Request body:** **NONE**
 
