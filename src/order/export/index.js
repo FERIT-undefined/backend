@@ -38,7 +38,6 @@ async function insertOrderTraffic(orderData) {
     const trafficOrder = new OrderTraffic();
     trafficOrder.billId = orderData.id;
     trafficOrder.meals = [];
-
     for (const meal of orderData.meals) {
 
         const mealData = await Meal.findById(meal.meal_id);

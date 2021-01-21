@@ -38,8 +38,8 @@ async function edit(req, res) {
             return res.status(404).json({ status: 'Order not found in the database.' });
         }
 
-        const mealIndex = order.meals.findIndex(x => x.meal_id === resultParams.value.meal_id);
-        if(mealIndex >= order.meals.length){
+        const mealIndex = order.meals.findIndex(x => x.id == resultParams.value.meal_id);
+        if(mealIndex >= order.meals.length) {
             return res.status(400).send({ error: 'Invalid meal ID' });
         }
 
@@ -51,7 +51,6 @@ async function edit(req, res) {
             order.done = true
             await TableOrder.findByIdAndUpdate({ _id: order.id }, { isFinished: true});
         }
-
         return res.status(200).json({ status: 'Order status successfully edited' });
     }
     catch(err) {
