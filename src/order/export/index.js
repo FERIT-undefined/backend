@@ -40,8 +40,8 @@ async function insertOrderTraffic(orderData) {
     const trafficOrder = new OrderTraffic();
     trafficOrder.billId = orderData.id;
     trafficOrder.meals = [];
-    for (const meal of orderData.meals) {
 
+    for (const meal of orderData.meals) {
         const mealData = await Meal.findById(meal.id);
         const tmpObject = {
             'id': meal.id,
@@ -50,12 +50,10 @@ async function insertOrderTraffic(orderData) {
             'type': mealData.type,
             'price': mealData.price,
             'pdv': mealData.pdv,
-            'discount': mealData.discount
+            'discount': mealData.discount,
+            'quantity': meal.quantity
         };
-
-        for(let i = 0; i < meal.quantity; i++) {
-            trafficOrder.meals.push(tmpObject);
-        }
+        trafficOrder.meals.push(tmpObject);
     }
     trafficOrder.total_price = orderData.total_price;
     trafficOrder.finished_timestamp = Date.now();
