@@ -1,31 +1,25 @@
 const app = require("../index");
 const request = require("supertest");
 const User = require("../src/users/schema");
+const { userData, adminData } = require("../src/_helpers/testData");
 const { expect } = require("chai");
-
-const userData = {
-  email: "test@test.com",
-  password: "test123",
-  role: "Konobar",
-  fname: "Test",
-  lname: "Test",
-};
-
-const adminData = {
-  email: "admin@test.com",
-  password: "admin123",
-  role: "Admin",
-  fname: "Test",
-  lname: "Test",
-};
 
 const server = request(app);
 var user, admin;
-const newRole = "Konobar";
-const newEmail = "wrongmail.com";
-const newFname = "Admin";
 
 describe("Users API Test", () => {
+  after((done) => {
+    User.findOneAndRemove({ email: userData.email }, (err, res) => {
+      done();
+    }).catch(done);
+  });
+
+  after((done) => {
+    User.findOneAndRemove({ email: adminData.email }, (err, res) => {
+      done();
+    }).catch(done);
+  });
+
   describe("POST /users/register", () => {
     before((done) => {
       User.findOneAndRemove({ email: userData.email }, (err) => {
@@ -153,11 +147,7 @@ describe("Users API Test", () => {
 
   describe("POST /users", () => {
     it("should return 401 role not authorized", (done) => {
-      server
-        .post("/users")
-        .send({ refreshToken: "" })
-        .expect(401)
-        .end(done);
+      server.post("/users").send({ refreshToken: "" }).expect(401).end(done);
     });
 
     describe("Default role", () => {
@@ -327,13 +317,13 @@ describe("Users API Test", () => {
           server
             .patch("/users/" + res[0]._id)
             .send({
-              fname: newFname,
+              fname: "newFname",
               accessToken: "",
               refreshToken: admin.refreshToken,
             })
             .expect(200)
             .expect((res) => {
-              expect(res.body.user.fname).equals(newFname);
+              expect(res.body.user.fname).equals("newFname");
             })
             .end(done);
         })
@@ -346,13 +336,13 @@ describe("Users API Test", () => {
           server
             .patch("/users/" + res[0]._id)
             .send({
-              fname: newFname,
+              fname: "newFname",
               accessToken: "",
               refreshToken: user.refreshToken,
             })
             .expect(200)
             .expect((res) => {
-              expect(res.body.user.fname).equals(newFname);
+              expect(res.body.user.fname).equals("newFname");
             })
             .end(done);
         })
@@ -365,7 +355,7 @@ describe("Users API Test", () => {
           server
             .patch("/users/" + res[0]._id)
             .send({
-              role: newRole,
+              role: "Konobar",
               accessToken: "",
               refreshToken: admin.refreshToken,
             })
@@ -395,7 +385,7 @@ describe("Users API Test", () => {
       server
         .patch("/users/" + admin.fname)
         .send({
-          fname: newFname,
+          fname: "newFname",
           accessToken: "",
           refreshToken: admin.refreshToken,
         })
@@ -409,7 +399,7 @@ describe("Users API Test", () => {
           server
             .patch("/users/" + res[0]._id)
             .send({
-              email: newEmail,
+              email: "wrongmail.com",
               accessToken: "",
               refreshToken: admin.refreshToken,
             })
@@ -425,7 +415,7 @@ describe("Users API Test", () => {
           server
             .patch("/users/" + res[0]._id)
             .send({
-              fname: newFname,
+              fname: "newFname",
               accessToken: "",
               refreshToken: user.refreshToken,
             })
