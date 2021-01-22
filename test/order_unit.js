@@ -167,17 +167,6 @@ describe("Order API Test", () => {
         })
         .end(done);
     });
-
-    it("should return 401 unauthorized", (done) => {
-      server
-        .post("/order/add")
-        .expect(401)
-        .send({
-          ...defaultOrder,
-          accessToken: "",
-        })
-        .end(done);
-    });
   });
 
   describe("PATCH /order/:id", () => {

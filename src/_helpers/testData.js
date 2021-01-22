@@ -36,7 +36,7 @@ exports.defaultOrder = {
       type: mealType.Desert,
     },
   ],
-  total_price: 99999,
+  total_price: 9999,
 };
 
 exports.defaultTrafficDates = {
@@ -48,12 +48,13 @@ exports.defaultTrafficDates = {
 
 exports.defaultOrderTraffic = {
   billId: "um5TYe6dtkuYNMK4wmH211",
+  total_price: 9999,
   meals: [
     {
       name: "Test",
       price: 23,
       quantity: 3,
-      status: "Started",
+      status: "Done",
       type: mealType.Desert,
     },
   ],
