@@ -4,7 +4,8 @@ const OrderTraffic = require('../../traffic/schema');
 const Joi = require('joi');
 
 const validatorBody = Joi.object({
-    table: Joi.number().required()
+    table: Joi.number().required(),
+    total_price: Joi.number().required()
 });
 
 async function mealExport(req, res) {
@@ -21,7 +22,8 @@ async function mealExport(req, res) {
             return res.status(404).json({ status: 'Order not found in the database.' });
         }
         if(order.isFinished){
-            //await TableOrder.deleteOne({ table: resultBody.value.table });
+            order.total_price = resultBody.value.total_price;
+            await TableOrder.findOneAndDelete({ table: resultBody.value.table });
             await insertOrderTraffic(order);
         }
 
@@ -40,22 +42,20 @@ async function insertOrderTraffic(orderData) {
     trafficOrder.meals = [];
 
     for (const meal of orderData.meals) {
-
-        const mealData = await Meal.findById(meal.meal_id);
+        const mealData = await Meal.findById(meal.id);
         const tmpObject = {
-            'id': meal.meal_id,
+            'id': meal.id,
             'name': mealData.name,
             'description': mealData.description,
             'type': mealData.type,
             'price': mealData.price,
             'pdv': mealData.pdv,
-            'discount': mealData.discount
+            'discount': mealData.discount,
+            'quantity': meal.quantity
         };
-
-        for(let i = 0; i < meal.quantity; i++) {
-            trafficOrder.meals.push(tmpObject);
-        }
+        trafficOrder.meals.push(tmpObject);
     }
+    trafficOrder.total_price = orderData.total_price;
     trafficOrder.finished_timestamp = Date.now();
     return await trafficOrder.save();
 }

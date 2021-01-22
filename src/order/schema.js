@@ -24,7 +24,7 @@ const tableOrder = new Schema(
       type: Boolean,
       required: false,
       default: false
-    },
+    }
   },
   { collection: "tableOrders" }
 );

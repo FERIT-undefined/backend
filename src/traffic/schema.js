@@ -13,6 +13,10 @@ const orderTraffic = new Schema(
       required: true,
       default: 1
     },
+    total_price: {
+      type: Schema.Types.Number,
+      required: true
+    },
     finished_timestamp: {
       type: Schema.Types.Number,
       required: true,
